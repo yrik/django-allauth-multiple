@@ -31,3 +31,6 @@
     ```
     ACCOUNT_ADAPTER ='allauth_multiple.adapters.MultipleUserAccountAdapter'
     ```
+
+- pass `user_type` GET paramenter for each form of user registration.
+  Allowed values are names of user models. For example `?user-type=Expert`.
