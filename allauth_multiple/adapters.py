@@ -2,8 +2,6 @@ from allauth.account.models import EmailAddress
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.account.adapter import DefaultAccountAdapter
 
-from django.core.urlresolvers import reverse
-
 from .utils import get_user_models, get_user_model_by_name
 
 
@@ -13,7 +11,7 @@ class MultipleUserSocialAccountAdapter(DefaultSocialAccountAdapter):
         """
         Instantiate a new User instance in case user signups.
         """
-        # TODO: choose usertype based on GET params
+        # choose usertype based on GET params
         user_model = get_user_model_by_name(request.GET['user_type'])
         user = user_model()
         return user
@@ -21,14 +19,23 @@ class MultipleUserSocialAccountAdapter(DefaultSocialAccountAdapter):
 
 class MultipleUserAccountAdapter(DefaultAccountAdapter):
 
-    def new_user(self, request, sociallogin):
+    def new_user(self, request):
         """
         Instantiate a new User instance in case user signups.
         """
-        # TODO: choose usertype based on GET params
+        # choose usertype based on GET params
         user_model = get_user_model_by_name(request.GET['user_type'])
         user = user_model()
         return user
+
+    def save_user(self, request, user, form, commit=True):
+        user = super(MultipleUserAccountAdapter, self).save_user(
+            request, user, form, commit=False
+        )
+
+        user.username = user.username or user.email.split("@")[0]
+        if commit:
+            user.save()
 
     def login(self, request, user):
         from django.contrib.auth import login
