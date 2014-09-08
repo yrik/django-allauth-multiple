@@ -1,3 +1,6 @@
+== Allauth with multiple usertypes
+
+
 * Installation
 
 - install `django-allauth` and add all needed settings for it
