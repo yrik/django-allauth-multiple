@@ -9,7 +9,7 @@
 
 - add `AUTH_USER_MODELS` (note `S` in the end). It's list of user models allowed to signup.
   ```
-  AUTH_USER_MODEL = ['core.User', 'core.Expert']
+  AUTH_USER_MODELS = ['core.User', 'core.Expert']
   ```
 
 - adjust `AUTHENTICATION_BACKENDS`
