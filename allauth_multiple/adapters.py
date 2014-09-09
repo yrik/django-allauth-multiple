@@ -28,7 +28,15 @@ class MultipleUserAccountAdapter(DefaultAccountAdapter):
         user = user_model()
         return user
 
-'''
+    def login(self, request, user):
+        from django.contrib.auth import login
+        # HACK: This is not nice. The proper Django way is to use an
+        # authentication backend
+        if not hasattr(user, 'backend'):
+            user.backend = "users.auth_backends.MultipleAuthenticationBackend"
+        login(request, user)
+
+    '''
     def save_user(self, request, user, form, commit=True):
         user = super(MultipleUserAccountAdapter, self).save_user(
             request, user, form, commit=False
@@ -37,12 +45,4 @@ class MultipleUserAccountAdapter(DefaultAccountAdapter):
         user.username = user.username or user.email.split("@")[0]
         if commit:
             user.save()
-'''
-
-    def login(self, request, user):
-        from django.contrib.auth import login
-        # HACK: This is not nice. The proper Django way is to use an
-        # authentication backend
-        if not hasattr(user, 'backend'):
-            user.backend = "users.auth_backends.MultipleAuthenticationBackend"
-        login(request, user)
+    '''
