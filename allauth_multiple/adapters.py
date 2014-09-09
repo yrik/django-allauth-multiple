@@ -28,6 +28,7 @@ class MultipleUserAccountAdapter(DefaultAccountAdapter):
         user = user_model()
         return user
 
+'''
     def save_user(self, request, user, form, commit=True):
         user = super(MultipleUserAccountAdapter, self).save_user(
             request, user, form, commit=False
@@ -36,6 +37,7 @@ class MultipleUserAccountAdapter(DefaultAccountAdapter):
         user.username = user.username or user.email.split("@")[0]
         if commit:
             user.save()
+'''
 
     def login(self, request, user):
         from django.contrib.auth import login
