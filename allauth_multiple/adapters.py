@@ -33,7 +33,7 @@ class MultipleUserAccountAdapter(DefaultAccountAdapter):
         # HACK: This is not nice. The proper Django way is to use an
         # authentication backend
         if not hasattr(user, 'backend'):
-            user.backend = "users.auth_backends.MultipleAuthenticationBackend"
+            user.backend = "allauth_multiple.auth_backends.MultipleAuthenticationBackend"
         login(request, user)
 
     '''
