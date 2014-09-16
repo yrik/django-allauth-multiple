@@ -36,13 +36,15 @@ class MultipleUserAccountAdapter(DefaultAccountAdapter):
             user.backend = "allauth_multiple.auth_backends.MultipleAuthenticationBackend"
         login(request, user)
 
-    '''
+
     def save_user(self, request, user, form, commit=True):
         user = super(MultipleUserAccountAdapter, self).save_user(
             request, user, form, commit=False
         )
 
-        user.username = user.username or user.email.split("@")[0]
+        if hasattr(user, 'email'):
+            user.email = form.cleaned_data.get('email')
+        
         if commit:
             user.save()
-    '''
+
