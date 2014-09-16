@@ -22,7 +22,7 @@ class MultipleAuthenticationBackend(AuthenticationBackend):
     def get_user(self, user_id):
         for user_model in get_user_models():
             try:
-                user_model.objects.get(pk=user_id)
+                return user_model.objects.get(pk=user_id)
             except user_model.DoesNotExist:
                 pass
         return None
