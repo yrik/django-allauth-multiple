@@ -42,9 +42,10 @@ class MultipleUserAccountAdapter(DefaultAccountAdapter):
             request, user, form, commit=False
         )
 
-        if hasattr(user, 'email'):
-            user.email = form.cleaned_data.get('email')
-        
+        for key, val in form.cleaned_data.items():
+            if hasattr(user, key):
+                setattr(user, key, val)
+
         if commit:
             user.save()
 
