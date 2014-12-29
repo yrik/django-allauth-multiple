@@ -19,10 +19,12 @@ class MultipleAuthenticationBackend(AuthenticationBackend):
 
         return None
 
-    def get_user(self, user_id):
+    def get_user(self, user_id, user_hash):
         for user_model in get_user_models():
             try:
-                return user_model.objects.get(pk=user_id)
+                user = user_model.objects.get(pk=user_id)
+                if user.get_session_auth_hash() == user_hash:
+                    return user
             except user_model.DoesNotExist:
                 pass
         return None
