@@ -22,7 +22,10 @@ def get_user_obj(request):
     else:
         if backend_path in settings.AUTHENTICATION_BACKENDS:
             backend = load_backend(backend_path)
-            user = backend.get_user(user_id, user_hash)
+            if 'MultipleAuthenticationBackend' in backend_path:
+                user = backend.get_user(user_id, user_hash)
+            else:
+                user = backend.get_user(user_id)
     return user or AnonymousUser()
 
 
